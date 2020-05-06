@@ -1,6 +1,7 @@
 from random import shuffle
-from time import sleep
 from random import randint
+from time import sleep
+import pygame.mixer
 
 card_001 = ('Bofors Modelo 29', 75, 4000, 90, 6.3, 840, 8565, 1)
 card_002 = ('Anticarro M3 37mm', 37, 413.7, 25, .870, 884, 457, 2)
@@ -31,6 +32,9 @@ buffer_pc = list()
 choice_player = 0
 choice_pc = 0
 
+pygame.mixer.init()
+click = pygame.mixer.Sound('click.wav')
+
 
 def new_game():
     global flag
@@ -58,19 +62,14 @@ def new_game():
         game_over()
     elif choice == 1:
         sleep(.5)
-        print('\033[32mEmbaralhando\033[m', end='')
-        w = randint(2, 9)
-        while w > 0:
-            wait()
-            w -= 1
-        sleep(.7)
-        print('\033[33m\nDistribuindo\033[m', end='')
-        w = randint(2, 9)
-        while w > 0:
-            wait_2()
-            w -= 1
-        sleep(.7)
+        print('\033[32mEmbaralhando\033[m')
+        wait()
 
+        sleep(.7)
+        print('\033[33m\nDistribuindo\033[m')
+        wait_2()
+
+        sleep(.7)
         print('\nEscolha:')
         print('\033[35m[P] Par ou')
         print('[I] Ímpar\033[m')
@@ -122,7 +121,8 @@ def game():
                 new_game()
                 break
             elif choice_2 == 1:
-                print(f'\033[30m{cards_player[0][0]}\033[m')
+                click.play()
+                print(f'\033[7;30m{cards_player[0][0]}\033[m')
                 print(f'\033[33m[1] Calibre__________________________{cards_player[0][1]}mm')
                 print(f'[2] Peso_____________________________{cards_player[0][2]}Kg')
                 print(f'[3] Ângulo de elevação_______________{cards_player[0][3]}º')
@@ -182,7 +182,8 @@ def game():
             sleep(1)
             choice_pc = randint(1, 6)
             print('\033[31mVez da Maquina\033[m')
-            sleep(.8)
+            wait_pc()
+            sleep(.5)
             if choice_pc == 1:
                 if cards_pc[0][1] > cards_player[0][1]:
                     lose()
@@ -230,8 +231,8 @@ def game():
 def win():
     global flag
     flag = 1
-    print(f'\033[36mVocê Ganhou a Carta!\033[m')
-    print(f'{cards_pc[0][0]}')
+    print(f'\033[36m\nVocê Ganhou a Carta!\033[m')
+    print(f'\033[7;31m{cards_pc[0][0]}\033[m')
     print(f'\033[31m[1] Calibre__________________________{cards_pc[0][1]}mm')
     print(f'[2] Peso_____________________________{cards_pc[0][2]}Kg')
     print(f'[3] Ângulo de elevação_______________{cards_pc[0][3]}º')
@@ -249,7 +250,7 @@ def win():
 def lose():
     global flag
     flag = 0
-    print(f'\033[31mVocê Perdeu sua Carta!\033[m')
+    print(f'\033[31m\nVocê Perdeu sua Carta!\033[m')
     print(cards_pc[0][0])
     print(f'\033[31m{cards_player[0][choice_player]} - {cards_pc[0][choice_pc]}\033[m')
     buffer_pc = cards_pc[0]
@@ -272,13 +273,27 @@ def draw():
 
 
 def wait():
-    print('\033[32m*\033[m', end='')
-    sleep(.3)
+    w = randint(2, 9)
+    while w > 0:
+        print('\033[32m*\033[m', end='')
+        sleep(.3)
+        w -= 1
 
 
 def wait_2():
-    print('\033[33m*\033[m', end='')
-    sleep(.3)
+    w = randint(2, 9)
+    while w > 0:
+        print('\033[33m*\033[m', end='')
+        sleep(.3)
+        w -= 1
+
+
+def wait_pc():
+    w = randint(2, 9)
+    while w > 0:
+        print('\033[31m*\033[m', end='')
+        sleep(.3)
+        w -= 1
 
 
 def game_over():
