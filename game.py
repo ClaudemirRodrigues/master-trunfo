@@ -54,7 +54,13 @@ def new_game():
     print(f'-*' * 20, '\033[m')
     print(f'\033[7;32;49m[1] Novo Jogo\033[m')
     print(f'\033[7;33;49m[2]   Sair   \033[m')
-    choice = int(input(''))
+    while True:
+        try:
+            choice = int(input(''))
+            break
+        except ValueError:
+            while not ValueError:
+                break
     if choice != 1 and choice != 2:
         while choice != 1 and choice != 2:
             choice = int(input('\033[31mOpção inválida\033[m'))
@@ -73,7 +79,13 @@ def new_game():
         print('\nEscolha:')
         print('\033[35m[P] Par ou')
         print('[I] Ímpar\033[m')
-        choice_2 = input('Para decidir quem começa: ').upper()
+        while True:
+            try:
+                choice_2 = str(input('Para decidir quem começa: ')).upper()
+                break
+            except ValueError:
+                while not ValueError:
+                    break
 
         if choice_2 != 'P' and choice_2 != 'I':
             while choice_2 != 'P' and choice_2 != 'I':
@@ -105,17 +117,28 @@ def game():
     global choice_2
     choice_2 = 0
     while True:
-        if len(cards_pc) == 0 or len(cards_player) == 0 or choice_2 == 2:
+        if choice_2 == 2:
             game_over()
             break
         if flag == 1:
             if len(cards_pc) == 0 or len(cards_player) == 0:
-                game_over()
+                sleep(.6)
+                print('\033[34m\n' + '*' * 30)
+                print('*** \033[33mPARABÉNS! VOCÊ VENCEU!\033[m\033[34m ***')
+                print('*' * 30, '\033[m\n')
+                sleep(.6)
                 break
+
             print('\033[36mSua Vez!\033[m')
             print(f'\033[7;33;46m[1] Nova Rodada\033[m')
             print(f'\033[7;32;46m[2]    Sair    \033[m')
-            choice_2 = int(input(''))
+            while True:
+                try:
+                    choice_2 = int(input(''))
+                    break
+                except ValueError:
+                    while not ValueError:
+                        break
             sleep(.5)
             if choice_2 == 2:
                 new_game()
@@ -129,10 +152,16 @@ def game():
                 print(f'[4] Peso do projétil_________________{cards_player[0][4]}Kg')
                 print(f'[5] Velocidade inicial do projétil___{cards_player[0][5]}m/s')
                 print(f'[6] Alcance__________________________{cards_player[0][6]}m\033[m')
-                choice_player = int(input('\033[31mPlay now!\033[m\n'))
+                while True:
+                    try:
+                        choice_player = int(input('\033[31mPlay now!\033[m\n'))
+                        break
+                    except ValueError:
+                        while not ValueError:
+                            break
                 if 6 < choice_player < 1:
                     while 6 < choice_player < 1:
-                        choice_player = int(input('\033[31mPlay now!\033[m\n'))
+                        choice_player = int(input(''))
                 elif choice_player == 1:
                     if cards_player[0][choice_player] > cards_pc[0][1]:
                         win()
@@ -177,8 +206,13 @@ def game():
                         draw()
         elif flag == 0:
             if len(cards_pc) == 0 or len(cards_player) == 0:
-                game_over()
+                sleep(.6)
+                print('\033[31m\n' + '+' * 27)
+                print('+++ \033[39mVOCÊ FOI DERROTADO!\033[m\033[31m +++')
+                print('+' * 27, '\033[m\n')
+                sleep(.6)
                 break
+
             sleep(1)
             choice_pc = randint(1, 6)
             print('\033[31mVez da Maquina\033[m')
@@ -297,10 +331,7 @@ def wait_pc():
 
 
 def game_over():
-    if len(cards_pc) == 0:
-        print('PARABÉNS! VOCÊ VENCEU!')
-    elif len(cards_player) == 0:
-        print('VOCÊ FOI DERROTADO!')
+    pass
 
 
 new_game()
