@@ -121,12 +121,8 @@ def game():
             game_over()
             break
         if flag == 1:
-            if len(cards_pc) == 0 or len(cards_player) == 0:
-                sleep(.6)
-                print('\033[34m\n' + '*' * 30)
-                print('*** \033[33mPARABÉNS! VOCÊ VENCEU!\033[m\033[34m ***')
-                print('*' * 30, '\033[m\n')
-                sleep(.6)
+            if len(cards_pc) == 0:
+                game_over()
                 break
 
             print('\033[36mSua Vez!\033[m')
@@ -205,12 +201,8 @@ def game():
                     else:
                         draw()
         elif flag == 0:
-            if len(cards_pc) == 0 or len(cards_player) == 0:
-                sleep(.6)
-                print('\033[31m\n' + '+' * 27)
-                print('+++ \033[39mVOCÊ FOI DERROTADO!\033[m\033[31m +++')
-                print('+' * 27, '\033[m\n')
-                sleep(.6)
+            if len(cards_player) == 0:
+                game_over()
                 break
 
             sleep(1)
@@ -335,4 +327,17 @@ def game_over():
 
 
 new_game()
+
+if len(cards_pc) == 0:
+    sleep(1)
+    print('\033[34m\n' + '*' * 30)
+    print('*** \033[33mPARABÉNS! VOCÊ VENCEU!\033[m\033[34m ***')
+    print('*' * 30, '\033[m\n')
+    sleep(1)
+elif len(cards_player) == 0:
+    sleep(1)
+    print('\033[31m\n' + '+' * 27)
+    print('+++ \033[39mVOCÊ FOI DERROTADO!\033[m\033[31m +++')
+    print('+' * 27, '\033[m\n')
+    sleep(1)
 print('\033[32mObrigado por Jogar!\033[m')
