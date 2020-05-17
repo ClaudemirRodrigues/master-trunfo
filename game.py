@@ -33,13 +33,13 @@ choice_player = 0
 choice_pc = 0
 
 pygame.mixer.init()
-click = pygame.mixer.Sound('click.wav')
+click = pygame.mixer.Sound('click.ogg')
+music = pygame.mixer.Sound('background_music.ogg')
 
 
 def new_game():
     global flag
     flag = 99
-
     cards = []
     cards = [card_001, card_002, card_003, card_004, card_005, card_006, card_007, card_008, card_009, card_010,
              card_011, card_012, card_013, card_014, card_015, card_016, card_017, card_018, card_019, card_020]
@@ -54,6 +54,7 @@ def new_game():
     print(f'-*' * 20, '\033[m')
     print(f'\033[7;32;49m[1] Novo Jogo\033[m')
     print(f'\033[7;33;49m[2]   Sair   \033[m')
+    music.play()
     while True:
         try:
             choice = int(input(''))
@@ -118,6 +119,7 @@ def game():
     choice_2 = 0
     while True:
         if choice_2 == 2:
+            music.stop()
             game_over()
             break
         if flag == 1:
@@ -137,6 +139,7 @@ def game():
                         break
             sleep(.5)
             if choice_2 == 2:
+                music.stop()
                 new_game()
                 break
             elif choice_2 == 1:
